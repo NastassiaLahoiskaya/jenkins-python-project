@@ -30,7 +30,7 @@ pipeline {
         sh 'git config --global user.email "nastassia_lahoiskaya@epam.com"'
         sh 'git commit -m "commit"'
         sh 'git remote set-url origin https://NastassiaLahoiskaya:${TOKEN}@github.com/NastassiaLahoiskaya/jenkins-python-project.git'
-        sh 'git push --set-upstream origin master'
+        sh 'git push --set-upstream origin main'
       }
     }
   }
