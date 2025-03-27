@@ -74,3 +74,4 @@ def test_job_title_with_min_salary_greater_than_15000(db_connection):
     job_titles = [row[0] for row in result]
     print(f"Job titles: {job_titles}")
     assert "President" in job_titles, "Job title 'President' should be in the result set."
+#    
