@@ -20,6 +20,10 @@ pipeline {
     stage('Run Database Tests') {  
       steps {
                 echo 'Running database tests with pytest'
+                sh '''
+                echo $PATH
+                pytest test_database.py --html=Reports/test_database.py.html --self-contained-html
+                '''
                 sh 'pytest test_database.py --html=Reports/test_database.py.html --self-contained-html'
     }
 }    
