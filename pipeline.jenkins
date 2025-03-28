@@ -3,7 +3,7 @@ pipeline {
         stages {     
     stage ('GIT Checkout'){
         steps {
-            git changelog: false, poll: false, branch: 'main', url: 'https://github.com/NastassiaLahoiskaya/jenkins-python-project.git'
+            git changelog: false, poll: false, url: 'https://github.com/NastassiaLahoiskaya/jenkins-python-project.git'
         }
     }
     stage('Installing required libraries') {
