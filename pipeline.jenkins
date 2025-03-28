@@ -3,7 +3,7 @@ pipeline {
         stages {     
     stage ('GIT Checkout'){
         steps {
-            git changelog: false, poll: false, url: 'https://github.com/NastassiaLahoiskaya/jenkins-python-project.git'
+            git changelog: false, poll: false, url: 'https://github.com/NastassiaLahoiskaya/jenkins-python-project.git', branch: 'main'
         }
     }
     stage('Installing required libraries') {
@@ -20,7 +20,7 @@ pipeline {
     stage('Run Database Tests') {  
       steps {
                 echo 'Running database tests with pytest'
-                sh 'pytest test_database.py --html=Reports/database_test_report.html --self-contained-html'
+                sh 'pytest test_database.py --html=Reports/test_database.py.html --self-contained-html'
     }
 }    
      stage('Copy + push to another branch') {
