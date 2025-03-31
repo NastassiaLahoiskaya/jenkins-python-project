@@ -1,30 +1,34 @@
 import pytest
-import pyodbc
+import pymssql
 
 # Параметры подключения
-server = 'EPKZALMW0427\\SQLEXPRESS'
+server = 'EPKZALMW0427'
+port = 1533
 database = 'TRN'
 username = "dbo_user"
 password = "@11dbo_user_for_RF"
 
-connection_string = (
-    f"DRIVER={{ODBC Driver 17 for SQL Server}};"
-    f"SERVER={server};"
-    f"DATABASE={database};"
-    f"UID={username};PWD={password};"
-    f"TrustServerCertificate=Yes;"
-)
-
-# Фикстура для подключения к базе данных
 @pytest.fixture(scope="module")
 def db_connection():
+    connection = None
     try:
-        connection = pyodbc.connect(connection_string)
+        # Подключение к SQL Server через pymssql
+        connection = pymssql.connect(
+            server=server,
+            port=port,
+            user=username,
+            password=password,
+            database=database
+        )
         print("Connection successful!")
         yield connection
+    except pymssql.OperationalError as e:
+        print(f"OperationalError: {e}")
+        pytest.fail("Unable to connect to the database.")
     finally:
-        connection.close()
-        print("Connection closed.")
+        if connection:
+            connection.close()
+            print("Connection closed.")
 
 # Test Case 1: Number of countries by region ID
 def test_number_of_countries_by_region_id(db_connection):
