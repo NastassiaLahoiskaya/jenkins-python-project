@@ -1,0 +1,38 @@
+pipeline {
+        agent any
+        stages {     
+    stage ('GIT Checkout'){
+        steps {
+            git changelog: false, poll: false, branch: 'feature/my-feature', url: 'https://github.com/NastassiaLahoiskaya/jenkins-python-project.git'
+        }
+    }
+    stage('Installing required libraries') {
+      steps {
+        echo 'Installing required libraries'
+        sh 'pip3 install robotframework --break-system-packages'
+        sh 'pip3 install robotframework-databaselibrary --break-system-packages'
+        sh 'pip3 install pymssql --break-system-packages'
+        sh 'pip3 install pyodbc --break-system-packages'
+        sh 'pip3 install pytest --break-system-packages'
+        sh 'pip3 install pytest-html-reporter --break-system-packages'
+      }
+    }         
+    stage('Run Database Tests') {  
+      steps {
+                echo 'Testing using Robot'
+                sh 'robot --outputdir ./Reports test.robot'
+    }
+}    
+     stage('Copy + push to another branch') {
+      steps {
+		sh 'git checkout feature'
+        sh 'git add .'
+        sh 'git config --global user.name "NastassiaLahoiskaya"'
+        sh 'git config --global user.email "nastassia_lahoiskaya@epam.com"'
+        sh 'git commit -m "Auto-pushing changes to main from feature branch"'
+        sh 'git remote set-url origin https://NastassiaLahoiskaya:${TOKEN}@github.com/NastassiaLahoiskaya/jenkins-python-project.git'
+        sh 'git push origin main'
+      }
+    }
+  }
+}
