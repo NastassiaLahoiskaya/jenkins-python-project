@@ -17,10 +17,13 @@ pipeline {
         sh 'pip3 install pytest-html-reporter --break-system-packages'
       }
     }         
-    stage('Run Database Tests') {  
-      steps {
-                echo 'Testing using Robot'
-                sh 'robot --outputdir ./Reports test.robot'
+        stage('Run Database Tests') {
+            steps {
+                echo 'Running database tests with pytest'
+                sh '''
+                mkdir -p Reports
+                pytest test_database.py --html=Reports/test_database.py.html --self-contained-html
+                '''
     }
 }    
      stage('Copy + push to another branch') {
