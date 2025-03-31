@@ -16,7 +16,7 @@ pipeline {
                 pip3 install pymssql --break-system-packages
                 pip3 install pyodbc --break-system-packages
                 pip3 install pytest --break-system-packages
-                pip3 install pytest-html-reporter --break-system-packages
+                pip3 install pytest-html --break-system-packages
                 export PATH=$PATH:/var/jenkins_home/.local/bin
                 '''
             }
