@@ -29,6 +29,23 @@ pipeline {
                 mkdir -p Reports
                 pytest test_database.py --html=Reports/test_database.py.html --self-contained-html
                 '''
+                sh '''
+                python3 -c "
+                import pymssql
+                try:
+                    conn = pymssql.connect(
+                        server='EPKZALMW0427',
+                        port=1533,
+                        user='dbo_user',
+                        password='@11dbo_user_for_RF',
+                        database='TRN'
+                    )
+                    print('Connection successful!')
+                    conn.close()
+                except Exception as e:
+                    print(f'Connection failed: {e}')
+                "
+                '''
             }
         }    
         stage ('Copy + push to another branch') {
