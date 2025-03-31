@@ -1,41 +1,49 @@
 pipeline {
-        agent any
-        stages {     
-    stage ('GIT Checkout'){
-        steps {
-            git changelog: false, poll: false, branch: 'feature/my-feature', url: 'https://github.com/NastassiaLahoiskaya/jenkins-python-project.git'
+    agent any
+    stages {     
+        stage ('GIT Checkout') {
+            steps {
+                echo 'Checking out source code from feature branch'
+                git changelog: false, poll: false, branch: 'feature', url: 'https://github.com/NastassiaLahoiskaya/jenkins-python-project.git'
+            }
         }
-    }
-    stage('Installing required libraries') {
-      steps {
-        echo 'Installing required libraries'
-        sh 'pip3 install robotframework --break-system-packages'
-        sh 'pip3 install robotframework-databaselibrary --break-system-packages'
-        sh 'pip3 install pymssql --break-system-packages'
-        sh 'pip3 install pyodbc --break-system-packages'
-        sh 'pip3 install pytest --break-system-packages'
-        sh 'pip3 install pytest-html-reporter --break-system-packages'
-      }
-    }         
-        stage('Run Database Tests') {
+        stage ('Installing required libraries') {
+            steps {
+                echo 'Installing required libraries'
+                sh '''
+                pip3 install robotframework --break-system-packages
+                pip3 install robotframework-databaselibrary --break-system-packages
+                pip3 install pymssql --break-system-packages
+                pip3 install pyodbc --break-system-packages
+                pip3 install pytest --break-system-packages
+                pip3 install pytest-html-reporter --break-system-packages
+                export PATH=$PATH:/var/jenkins_home/.local/bin
+                '''
+            }
+        }         
+        stage ('Run Database Tests') {
             steps {
                 echo 'Running database tests with pytest'
                 sh '''
+                export PATH=$PATH:/var/jenkins_home/.local/bin
                 mkdir -p Reports
                 pytest test_database.py --html=Reports/test_database.py.html --self-contained-html
                 '''
+            }
+        }    
+        stage ('Copy + push to another branch') {
+            steps {
+                echo 'Pushing changes to main branch'
+                sh '''
+                git checkout feature
+                git add .
+                git config --global user.name "NastassiaLahoiskaya"
+                git config --global user.email "nastassia_lahoiskaya@epam.com"
+                git commit -m "Auto-pushing changes to main from feature branch"
+                git remote set-url origin https://NastassiaLahoiskaya:${TOKEN}@github.com/NastassiaLahoiskaya/jenkins-python-project.git
+                git push origin main
+                '''
+            }
+        }
     }
-}    
-     stage('Copy + push to another branch') {
-      steps {
-		sh 'git checkout feature'
-        sh 'git add .'
-        sh 'git config --global user.name "NastassiaLahoiskaya"'
-        sh 'git config --global user.email "nastassia_lahoiskaya@epam.com"'
-        sh 'git commit -m "Auto-pushing changes to main from feature branch"'
-        sh 'git remote set-url origin https://NastassiaLahoiskaya:${TOKEN}@github.com/NastassiaLahoiskaya/jenkins-python-project.git'
-        sh 'git push origin main'
-      }
-    }
-  }
 }
