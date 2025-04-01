@@ -11,10 +11,7 @@ pipeline {
             steps {
                 echo 'Installing required libraries'
                 sh '''
-                pip3 install robotframework --break-system-packages
-                pip3 install robotframework-databaselibrary --break-system-packages
                 pip3 install pymssql --break-system-packages
-                pip3 install pyodbc --break-system-packages
                 pip3 install pytest --break-system-packages
                 pip3 install pytest-html --break-system-packages
                 export PATH=$PATH:/var/jenkins_home/.local/bin
