@@ -2,7 +2,7 @@ import pytest
 import pymssql
 
 # Параметры подключения
-server = 'EPKZALMW0427'
+server = 'EPKZALMW0427\SQLEXPRESS'
 port = 1533
 database = 'TRN'
 username = "dbo_user"
