@@ -2,7 +2,6 @@ import pytest
 import pymssql
 
 
-# Параметры подключения
 server = '192.168.1.248'
 database = 'TRN'
 username = "dbo_user"
@@ -12,7 +11,7 @@ password = "@11dbo_user_for_RF"
 def db_connection():
     connection = None
     try:
-        # Подключение к SQL Server через pymssql
+
         connection = pymssql.connect(
             server=server,
             user=username,
