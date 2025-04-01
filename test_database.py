@@ -1,9 +1,9 @@
 import pytest
 import pymssql
 
-# Параметры подключения
+
 server = 'EPKZALMW0427\\SQLEXPRESS'
-port = 1533
+
 database = 'TRN'
 username = "dbo_user"
 password = "@11dbo_user_for_RF"
@@ -12,10 +12,10 @@ password = "@11dbo_user_for_RF"
 def db_connection():
     connection = None
     try:
-        # Подключение к SQL Server через pymssql
+
         connection = pymssql.connect(
             server=server,
-            port=port,
+
             user=username,
             password=password,
             database=database
