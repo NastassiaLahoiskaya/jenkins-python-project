@@ -4,7 +4,6 @@ import pymssql
 
 # Параметры подключения
 server = '192.168.1.248'
-port = 1433
 database = 'TRN'
 username = "dbo_user"
 password = "@11dbo_user_for_RF"
@@ -16,7 +15,6 @@ def db_connection():
         # Подключение к SQL Server через pymssql
         connection = pymssql.connect(
             server=server,
-            port=port,
             user=username,
             password=password,
             database=database
