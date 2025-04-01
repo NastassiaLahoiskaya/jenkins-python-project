@@ -3,7 +3,6 @@ import pymssql
 
 
 server = 'EPKZALMW0427'
-
 database = 'TRN'
 username = "dbo_user"
 password = "@11dbo_user_for_RF"
