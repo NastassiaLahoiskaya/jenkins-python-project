@@ -2,7 +2,7 @@ import pytest
 import pymssql
 
 
-server = 'EPKZALMW0427\\SQLEXPRESS'
+server = 'EPKZALMW0427'
 
 database = 'TRN'
 username = "dbo_user"
